@@ -163,7 +163,7 @@ MIT — free to use, modify, and deploy.
 
 ## About
 
-Built by **Nicola Indjov** (Niki) — Berlin-based musician and audio software developer.
+Built by **Niki Indjov** — Berlin-based musician and audio software developer.
 Craft Audio focuses on accessible music technology tools for deaf and hard-of-hearing musicians.
 
 - craftforge.pages.dev
