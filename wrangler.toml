@@ -1,0 +1,11 @@
+name = "craftforge-proxy"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# Uncomment to use a custom domain route:
+# routes = [
+#   { pattern = "craft-audio.com/api/*", zone_name = "craft-audio.com" }
+# ]
+
+# The API key is stored as a Worker Secret — never commit it here.
+# Add it via: wrangler secret put ANTHROPIC_API_KEY
