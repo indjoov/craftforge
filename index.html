@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CraftForge</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0a0a0f;
+  --surface:   #111118;
+  --surface2:  #16161f;
+  --border:    rgba(255,255,255,0.07);
+  --border-hi: rgba(255,255,255,0.13);
+  --text:      #e8e8f0;
+  --text-2:    #7878a0;
+  --text-3:    #44445a;
+  --accent:    #6c63ff;
+  --accent-lo: rgba(108,99,255,0.12);
+  --accent-hi: #9d97ff;
+  --green:     #34d399;
+  --green-lo:  rgba(52,211,153,0.1);
+  --red:       #f87171;
+  --radius:    12px;
+  --radius-sm: 8px;
+}
+
+html { font-size: 15px; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* subtle radial glow top center */
+body::before {
+  content: '';
+  position: fixed;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(108,99,255,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 56px 24px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Header ─────────────────────────────── */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 56px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-mark {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--accent), #a78bfa);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 0 20px rgba(108,99,255,0.3);
+}
+
+.logo-text {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: var(--text);
+}
+
+.logo-text span { color: var(--accent-hi); }
+
+.badge {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 99px;
+  letter-spacing: 0.3px;
+}
+
+/* ── Hero ─────────────────────────────── */
+.hero {
+  margin-bottom: 40px;
+}
+
+h1 {
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1.15;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+h1 em {
+  font-style: normal;
+  background: linear-gradient(90deg, var(--accent-hi), #c4b5fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  font-size: 16px;
+  color: var(--text-2);
+  line-height: 1.6;
+  max-width: 500px;
+  font-weight: 400;
+}
+
+/* ── Card ─────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 16px;
+  transition: border-color 0.2s;
+}
+
+.card:focus-within {
+  border-color: var(--border-hi);
+}
+
+/* ── Prompt area ─────────────────────────────── */
+.prompt-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-2);
+  letter-spacing: 0.3px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+textarea {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  padding: 14px 16px;
+  resize: none;
+  outline: none;
+  transition: border-color 0.2s;
+  min-height: 80px;
+}
+
+textarea:focus {
+  border-color: rgba(108,99,255,0.5);
+  box-shadow: 0 0 0 3px rgba(108,99,255,0.08);
+}
+
+textarea::placeholder { color: var(--text-3); }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.chip {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-2);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.chip:hover {
+  border-color: rgba(108,99,255,0.4);
+  color: var(--accent-hi);
+  background: var(--accent-lo);
+}
+
+/* ── Generate button ─────────────────────────────── */
+.btn-primary {
+  width: 100%;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  padding: 13px 24px;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(108,99,255,0.2);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #7c74ff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 6px 24px rgba(108,99,255,0.35);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) { transform: translateY(0); }
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* spinner */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: none;
+}
+.spinner.active { display: block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Progress / status ─────────────────────────────── */
+.progress-wrap {
+  margin-top: 12px;
+  display: none;
+}
+.progress-wrap.active { display: block; }
+
+.progress-bar {
+  height: 2px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-inner {
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hi));
+  border-radius: 99px;
+  animation: prog 1.4s ease-in-out infinite;
+}
+
+@keyframes prog {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(260%); }
+}
+
+.status-line {
+  font-size: 12px;
+  color: var(--text-2);
+  margin-top: 8px;
+  font-family: 'DM Mono', monospace;
+  min-height: 16px;
+}
+
+/* ── Error ─────────────────────────────── */
+.error-card {
+  background: rgba(248,113,113,0.06);
+  border: 1px solid rgba(248,113,113,0.2);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--red);
+  margin-top: 12px;
+  display: none;
+  line-height: 1.5;
+}
+.error-card.visible { display: block; }
+
+/* ── Plugin card ─────────────────────────────── */
+.plugin-card {
+  display: none;
+  animation: fadeUp 0.3s ease;
+}
+.plugin-card.visible { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.plugin-meta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.plugin-title-group { flex: 1; min-width: 0; }
+
+.plugin-name {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.plugin-desc {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+.type-pill {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--accent-hi);
+  background: var(--accent-lo);
+  border: 1px solid rgba(108,99,255,0.2);
+  padding: 4px 10px;
+  border-radius: 99px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Visualizer ─────────────────────────────── */
+.viz-wrap {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+canvas#viz {
+  width: 100%;
+  height: 72px;
+  display: block;
+}
+
+.viz-tag {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  color: var(--text-3);
+  letter-spacing: 1px;
+}
+
+/* ── Transport ─────────────────────────────── */
+.transport {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.btn-play {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--green-lo);
+  border: 1px solid rgba(52,211,153,0.25);
+  border-radius: var(--radius-sm);
+  color: var(--green);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-play:hover { background: rgba(52,211,153,0.15); }
+.btn-play.active { background: rgba(52,211,153,0.18); box-shadow: 0 0 0 1px rgba(52,211,153,0.3); }
+
+.btn-stop {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-2);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-stop:hover { border-color: var(--border-hi); color: var(--text); }
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+  animation: pulse 1.4s ease-in-out infinite;
+  display: none;
+}
+.dot.active { display: block; }
+@keyframes pulse {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+
+.transport-label {
+  font-size: 12px;
+  color: var(--text-3);
+  font-family: 'DM Mono', monospace;
+  margin-left: 2px;
+}
+
+/* ── Parameters ─────────────────────────────── */
+.params-header {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-2);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.params-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.param-item {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  transition: border-color 0.15s;
+}
+
+.param-item:hover { border-color: var(--border-hi); }
+
+.param-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+.param-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.param-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--accent-hi);
+  font-weight: 500;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 3px;
+  background: var(--border-hi);
+  border-radius: 99px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  background: #fff;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 4px rgba(108,99,255,0.15);
+}
+
+input[type=range]::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  background: #fff;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* ── Footer ─────────────────────────────── */
+footer {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: gap;
+}
+
+.footer-left {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.footer-left strong { color: var(--text-2); }
+
+*:focus-visible {
+  outline: 2px solid rgba(108,99,255,0.6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="logo">
+      <div class="logo-mark">⬡</div>
+      <div class="logo-text">Craft<span>Forge</span></div>
+    </div>
+    <div class="badge">by Craft Audio</div>
+  </header>
+
+  <div class="hero">
+    <h1>Describe a sound.<br><em>Get a plugin.</em></h1>
+    <p>Type any effect or sound idea in plain language — CraftForge builds a real Web Audio plugin you can play instantly.</p>
+  </div>
+
+  <!-- Prompt Card -->
+  <div class="card">
+    <div class="prompt-label">Your idea</div>
+    <textarea
+      id="promptInput"
+      placeholder="e.g. 'A warm analog chorus with gentle drift' or 'Aggressive bitcrusher with resonance'"
+      rows="3"
+      aria-label="Plugin description"
+    ></textarea>
+
+    <div class="chips">
+      <button class="chip" onclick="setPrompt(this)">Cathedral reverb</button>
+      <button class="chip" onclick="setPrompt(this)">Dark tape delay</button>
+      <button class="chip" onclick="setPrompt(this)">Warm analog chorus</button>
+      <button class="chip" onclick="setPrompt(this)">Vinyl crackle</button>
+      <button class="chip" onclick="setPrompt(this)">Psychedelic tremolo</button>
+      <button class="chip" onclick="setPrompt(this)">Aggressive bitcrusher</button>
+    </div>
+
+    <button class="btn-primary" id="forgeBtn" onclick="forgePlugin()">
+      <div class="spinner" id="spinner"></div>
+      <span id="forgeBtnText">Generate plugin</span>
+    </button>
+
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-bar"><div class="progress-inner"></div></div>
+      <div class="status-line" id="statusLine" aria-live="polite"></div>
+    </div>
+
+    <div class="error-card" id="errorCard" role="alert"></div>
+  </div>
+
+  <!-- Plugin Output -->
+  <div class="card plugin-card" id="pluginCard">
+
+    <div class="plugin-meta">
+      <div class="plugin-title-group">
+        <div class="plugin-name" id="pluginName">—</div>
+        <div class="plugin-desc" id="pluginDesc">—</div>
+      </div>
+      <div class="type-pill" id="pluginType">Effect</div>
+    </div>
+
+    <div class="viz-wrap">
+      <canvas id="viz" width="730" height="72" aria-label="Audio waveform"></canvas>
+      <div class="viz-tag">WAVEFORM</div>
+    </div>
+
+    <div class="transport">
+      <button class="btn-play" id="btnPlay" onclick="togglePlay()">
+        <svg id="playIcon" width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.5l7 4.5-7 4.5V1.5z"/></svg>
+        <span id="playLabel">Play</span>
+      </button>
+      <button class="btn-stop" onclick="stopAudio()">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><rect width="10" height="10" rx="1"/></svg>
+        Stop
+      </button>
+      <div class="dot" id="playDot"></div>
+      <div class="transport-label" id="transportLabel">Idle</div>
+    </div>
+
+    <div class="params-header">Parameters</div>
+    <div class="params-grid" id="paramsGrid"></div>
+
+  </div>
+
+  <footer>
+    <div class="footer-left"><strong>CraftForge</strong> · Web Audio · Accessibility-first</div>
+  </footer>
+
+</div>
+
+<script>
+let audioCtx = null, sourceNode = null, analyserNode = null;
+let isPlaying = false, currentCode = null, currentParams = [], paramValues = {};
+let vizFrame = null;
+
+function setPrompt(el) {
+  document.getElementById('promptInput').value = el.textContent;
+  document.getElementById('promptInput').focus();
+}
+
+function setLoading(on) {
+  document.getElementById('spinner').classList.toggle('active', on);
+  document.getElementById('forgeBtnText').textContent = on ? 'Generating…' : 'Generate plugin';
+  document.getElementById('forgeBtn').disabled = on;
+  document.getElementById('progressWrap').classList.toggle('active', on);
+}
+
+function setStatus(msg) { document.getElementById('statusLine').textContent = msg; }
+
+function showError(msg) {
+  const el = document.getElementById('errorCard');
+  el.textContent = msg;
+  el.classList.add('visible');
+}
+function clearError() { document.getElementById('errorCard').classList.remove('visible'); }
+
+async function forgePlugin() {
+  const prompt = document.getElementById('promptInput').value.trim();
+  if (!prompt) return;
+  clearError();
+  stopAudio();
+  setLoading(true);
+  setStatus('Analyzing prompt…');
+
+  // Replace with your Worker URL after deploying (see worker.js / wrangler.toml)
+  // Dev:  https://craftforge-proxy.niki-indjov.workers.dev/api/generate
+  // Prod: https://craft-audio.com/api/generate
+  const WORKER_URL = "https://craftforge-proxy.niki-indjov.workers.dev/api/generate";
+
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt })
+    });
+
+    setStatus('Building audio graph…');
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || 'API error');
+
+    const raw = data.content.map(b => b.text || '').join('').replace(/```json|```/g,'').trim();
+    let spec;
+    try { spec = JSON.parse(raw); }
+    catch {
+      const m = raw.match(/\{[\s\S]*\}/);
+      if (m) spec = JSON.parse(m[0]);
+      else throw new Error('Could not parse plugin spec');
+    }
+
+    renderPlugin(spec);
+    setStatus('');
+    setLoading(false);
+  } catch(err) {
+    setLoading(false);
+    setStatus('');
+    showError(err.message || 'Something went wrong. Try a different prompt.');
+  }
+}
+
+function renderPlugin(spec) {
+  currentCode = spec.buildFunction;
+  currentParams = spec.parameters || [];
+  paramValues = {};
+  currentParams.forEach(p => { paramValues[p.id] = p.default; });
+
+  document.getElementById('pluginName').textContent = spec.name || 'Unnamed Plugin';
+  document.getElementById('pluginDesc').textContent = spec.description || '';
+  document.getElementById('pluginType').textContent = spec.type || 'Effect';
+
+  const grid = document.getElementById('paramsGrid');
+  grid.innerHTML = '';
+  currentParams.forEach(p => {
+    const range = p.max - p.min;
+    const norm = range > 0 ? (p.default - p.min) / range : 0.5;
+    const div = document.createElement('div');
+    div.className = 'param-item';
+    div.innerHTML = `
+      <div class="param-row">
+        <span class="param-name">${p.name}</span>
+        <span class="param-val" id="val_${p.id}">${fmt(p.default, p.unit)}</span>
+      </div>
+      <input type="range" min="0" max="1" step="0.001" value="${norm.toFixed(3)}"
+        aria-label="${p.name}"
+        oninput="onParam('${p.id}', this.value, ${p.min}, ${p.max}, '${p.unit}')"
+      />`;
+    grid.appendChild(div);
+  });
+
+  document.getElementById('pluginCard').classList.add('visible');
+  if (isPlaying) { stopAudio(); setTimeout(startAudio, 80); }
+}
+
+function fmt(v, unit) {
+  const s = Math.abs(v) >= 100 ? v.toFixed(0) : Math.abs(v) >= 10 ? v.toFixed(1) : v.toFixed(2);
+  return unit ? `${s} ${unit}` : s;
+}
+
+function onParam(id, normVal, min, max, unit) {
+  const actual = min + parseFloat(normVal) * (max - min);
+  paramValues[id] = actual;
+  const el = document.getElementById('val_' + id);
+  if (el) el.textContent = fmt(actual, unit);
+  if (isPlaying) { stopAudio(); setTimeout(startAudio, 50); }
+}
+
+function getParam(id) {
+  const p = currentParams.find(x => x.id === id);
+  if (!p) return 0.5;
+  const range = p.max - p.min;
+  return range === 0 ? 0.5 : Math.max(0, Math.min(1, (paramValues[id] - p.min) / range));
+}
+
+function buildPlugin() {
+  if (!currentCode) return null;
+  try {
+    const fn = new Function('ctx', 'getParam', currentCode.replace(/^function buildPlugin\(ctx,\s*getParam\)\s*\{/, '').replace(/\}$/, ''));
+    return fn(audioCtx, getParam);
+  } catch {
+    try { return eval('(' + currentCode + ')')(audioCtx, getParam); }
+    catch(e) { console.error('Build error', e); return null; }
+  }
+}
+
+function startAudio() {
+  if (!currentCode) return;
+  try {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    osc.type = 'sawtooth';
+    osc.frequency.value = 110;
+    const preGain = audioCtx.createGain();
+    preGain.gain.value = 0.25;
+    osc.connect(preGain);
+
+    const plugin = buildPlugin();
+    analyserNode = audioCtx.createAnalyser();
+    analyserNode.fftSize = 512;
+    const master = audioCtx.createGain();
+    master.gain.value = 0.75;
+
+    if (plugin?.input && plugin?.output) {
+      preGain.connect(plugin.input);
+      plugin.output.connect(analyserNode);
+    } else {
+      preGain.connect(analyserNode);
+    }
+    analyserNode.connect(master);
+    master.connect(audioCtx.destination);
+    osc.start();
+    sourceNode = osc;
+    isPlaying = true;
+
+    document.getElementById('btnPlay').classList.add('active');
+    document.getElementById('playLabel').textContent = 'Pause';
+    document.getElementById('playDot').classList.add('active');
+    document.getElementById('transportLabel').textContent = 'Playing';
+    startViz();
+  } catch(e) {
+    showError('Audio error: ' + e.message);
+  }
+}
+
+function stopAudio() {
+  if (sourceNode) { try { sourceNode.stop(); } catch {} sourceNode = null; }
+  if (audioCtx) { try { audioCtx.close(); } catch {} audioCtx = null; }
+  analyserNode = null;
+  isPlaying = false;
+  if (vizFrame) { cancelAnimationFrame(vizFrame); vizFrame = null; }
+  document.getElementById('btnPlay').classList.remove('active');
+  document.getElementById('playLabel').textContent = 'Play';
+  document.getElementById('playDot').classList.remove('active');
+  document.getElementById('transportLabel').textContent = 'Idle';
+  clearViz();
+}
+
+function togglePlay() {
+  if (!currentCode) return;
+  isPlaying ? stopAudio() : startAudio();
+}
+
+function startViz() {
+  const canvas = document.getElementById('viz');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  function draw() {
+    vizFrame = requestAnimationFrame(draw);
+    ctx.fillStyle = '#16161f';
+    ctx.fillRect(0, 0, W, H);
+    if (!analyserNode) return;
+    const buf = new Float32Array(analyserNode.fftSize);
+    analyserNode.getFloatTimeDomainData(buf);
+    // Center line
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, H/2); ctx.lineTo(W, H/2); ctx.stroke();
+    // Waveform fill
+    ctx.beginPath();
+    for (let i = 0; i < buf.length; i++) {
+      const x = (i / buf.length) * W;
+      const y = (0.5 + buf[i] * 0.42) * H;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.lineTo(W, H/2); ctx.lineTo(0, H/2);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(108,99,255,0.12)';
+    ctx.fill();
+    // Waveform line
+    ctx.beginPath();
+    for (let i = 0; i < buf.length; i++) {
+      const x = (i / buf.length) * W;
+      const y = (0.5 + buf[i] * 0.42) * H;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = '#9d97ff';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+  draw();
+}
+
+function clearViz() {
+  const canvas = document.getElementById('viz');
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#16161f';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, canvas.height / 2);
+  ctx.lineTo(canvas.width, canvas.height / 2);
+  ctx.stroke();
+}
+
+clearViz();
+
+document.getElementById('promptInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) forgePlugin();
+});
+</script>
+</body>
+</html>
