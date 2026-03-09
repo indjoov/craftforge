@@ -556,6 +556,307 @@ footer {
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* ── Credit badge ─────────────────────────────── */
+.credit-badge {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 5px 12px 5px 10px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.credit-badge:hover { border-color: var(--border-hi); }
+.credit-badge.visible { display: flex; }
+
+.credit-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-hi);
+  box-shadow: 0 0 6px rgba(108,99,255,0.6);
+}
+.credit-count {
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--accent-hi);
+  font-weight: 500;
+}
+.credit-label {
+  font-size: 11px;
+  color: var(--text-3);
+}
+
+/* ── Login prompt strip ──────────────────────── */
+.login-strip {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--accent-lo);
+  border: 1px solid rgba(108,99,255,0.2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--text-2);
+}
+.login-strip.visible { display: flex; }
+.login-strip-btn {
+  background: var(--accent);
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.login-strip-btn:hover { background: #7c74ff; }
+
+/* ── Paywall modal overlay ───────────────────── */
+.pw-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.pw-overlay.open { display: flex; }
+
+.pw-modal {
+  background: var(--surface);
+  border: 1px solid var(--border-hi);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 500px;
+  animation: fadeUp 0.2s ease;
+  overflow: hidden;
+}
+
+.pw-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border);
+}
+.pw-header-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--accent-hi);
+  font-family: 'DM Mono', monospace;
+}
+.pw-close {
+  background: none;
+  border: none;
+  color: var(--text-3);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.15s;
+}
+.pw-close:hover { color: var(--text); }
+
+.pw-body { padding: 26px 22px; }
+
+.pw-lead {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.3px;
+  margin-bottom: 6px;
+}
+.pw-sub {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+/* Email form */
+.pw-input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+.pw-input:focus {
+  border-color: rgba(108,99,255,0.5);
+  box-shadow: 0 0 0 3px rgba(108,99,255,0.08);
+}
+.pw-input::placeholder { color: var(--text-3); }
+
+.pw-btn-primary {
+  width: 100%;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+  box-shadow: 0 4px 16px rgba(108,99,255,0.25);
+}
+.pw-btn-primary:hover:not(:disabled) { background: #7c74ff; }
+.pw-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.pw-btn-ghost {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-2);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  padding: 9px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  margin-top: 8px;
+}
+.pw-btn-ghost:hover { border-color: var(--border-hi); color: var(--text); }
+
+.pw-error {
+  font-size: 12px;
+  color: var(--red);
+  margin-bottom: 10px;
+  display: none;
+}
+.pw-error.visible { display: block; }
+
+/* Sent state */
+.pw-sent-icon { font-size: 32px; margin-bottom: 12px; }
+
+/* Credit packs */
+.pw-packs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.pw-pack {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px 10px 14px;
+  text-align: center;
+  position: relative;
+  transition: border-color 0.15s;
+  cursor: pointer;
+}
+.pw-pack:hover { border-color: rgba(108,99,255,0.35); }
+.pw-pack.highlight {
+  border-color: rgba(108,99,255,0.4);
+  background: rgba(108,99,255,0.06);
+}
+.pw-pack-badge {
+  position: absolute;
+  top: -9px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+.pw-pack-label {
+  font-size: 10px;
+  color: var(--text-3);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.pw-pack-credits {
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  font-family: 'DM Mono', monospace;
+}
+.pw-pack-unit {
+  font-size: 10px;
+  color: var(--text-3);
+  margin: 2px 0 8px;
+}
+.pw-pack-price {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent-hi);
+  margin-bottom: 3px;
+}
+.pw-pack-note {
+  font-size: 10px;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+.pw-pack-btn {
+  width: 100%;
+  background: var(--accent);
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 7px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+}
+.pw-pack-btn:hover { background: #7c74ff; }
+.pw-fine {
+  font-size: 11px;
+  color: var(--text-3);
+  line-height: 1.5;
+  text-align: center;
+}
+.pw-footer {
+  padding: 12px 22px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-3);
+}
+.pw-footer-link {
+  background: none; border: none;
+  color: var(--text-2);
+  font-size: 11px;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0; font-family: inherit;
+}
+.pw-footer-link:hover { color: var(--text); }
+
+/* view switching */
+.pw-view { display: none; }
+.pw-view.active { display: block; }
 </style>
 </head>
 <body>
@@ -566,7 +867,15 @@ footer {
       <div class="logo-mark">⬡</div>
       <div class="logo-text">Craft<span>Forge</span></div>
     </div>
-    <div class="badge">by Craft Audio</div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <!-- Credit badge (shown when logged in) -->
+      <button class="credit-badge" id="creditBadge" onclick="openPaywall('credits')" aria-label="Credits">
+        <div class="credit-dot"></div>
+        <span class="credit-count" id="creditCount">—</span>
+        <span class="credit-label">credits</span>
+      </button>
+      <div class="badge">by Craft Audio</div>
+    </div>
   </header>
 
   <div class="hero">
@@ -604,6 +913,12 @@ footer {
     </div>
 
     <div class="error-card" id="errorCard" role="alert"></div>
+
+    <!-- Login nudge strip — shown when not logged in -->
+    <div class="login-strip" id="loginStrip">
+      <span>Sign in to save your credits and generations.</span>
+      <button class="login-strip-btn" onclick="openPaywall('email')">Sign in / Get credits</button>
+    </div>
   </div>
 
   <!-- Plugin Output -->
@@ -680,21 +995,29 @@ async function forgePlugin() {
   setLoading(true);
   setStatus('Analyzing prompt…');
 
-  // Replace with your Worker URL after deploying (see worker.js / wrangler.toml)
-  // Dev:  https://craftforge-proxy.niki-indjov.workers.dev/api/generate
-  // Prod: https://craft-audio.com/api/generate
-  const WORKER_URL = "https://craftforge-proxy.niki-indjov.workers.dev/api/generate";
-
   try {
-    const res = await fetch(WORKER_URL, {
+    const headers = { "Content-Type": "application/json" };
+    if (cfToken) headers["Authorization"] = `Bearer ${cfToken}`;
+
+    const res  = await fetch(`${WORKER_URL}/api/generate`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt })
+      headers,
+      body: JSON.stringify({ prompt }),
     });
 
-    setStatus('Building audio graph…');
     const data = await res.json();
+
+    // Paywall response
+    if (res.status === 402 || data.paywall) {
+      setLoading(false);
+      setStatus('');
+      openPaywall(data.needsLogin ? 'email' : 'credits');
+      return;
+    }
+
     if (!res.ok) throw new Error(data.error?.message || 'API error');
+
+    setStatus('Building audio graph…');
 
     const raw = data.content.map(b => b.text || '').join('').replace(/```json|```/g,'').trim();
     let spec;
@@ -703,6 +1026,16 @@ async function forgePlugin() {
       const m = raw.match(/\{[\s\S]*\}/);
       if (m) spec = JSON.parse(m[0]);
       else throw new Error('Could not parse plugin spec');
+    }
+
+    // Update credits from response
+    if (data._credits) {
+      cfCredits = {
+        credits:        data._credits.credits ?? cfCredits.credits,
+        free_remaining: data._credits.free_remaining ?? cfCredits.free_remaining,
+        total:          (data._credits.credits ?? 0) + (data._credits.free_remaining ?? 0),
+      };
+      updateCreditBadge();
     }
 
     renderPlugin(spec);
@@ -895,5 +1228,235 @@ document.getElementById('promptInput').addEventListener('keydown', e => {
   if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) forgePlugin();
 });
 </script>
+<!-- ── Paywall Modal ─────────────────────────────────────────────────────── -->
+<div class="pw-overlay" id="pwOverlay" role="dialog" aria-modal="true" aria-label="Credits and sign in">
+
+  <div class="pw-modal">
+    <div class="pw-header">
+      <span class="pw-header-title">CRAFTFORGE · CREDITS</span>
+      <button class="pw-close" onclick="closePaywall()" aria-label="Close">✕</button>
+    </div>
+
+    <!-- View: Email entry -->
+    <div class="pw-view active" id="pwViewEmail">
+      <div class="pw-body">
+        <div class="pw-lead" id="pwEmailLead">You've used your free generations.</div>
+        <div class="pw-sub">Enter your email to buy credits or log back in — no password needed.</div>
+        <input class="pw-input" type="email" id="pwEmailInput" placeholder="your@email.com" autocomplete="email" />
+        <div class="pw-error" id="pwEmailError"></div>
+        <button class="pw-btn-primary" id="pwEmailBtn" onclick="requestMagicLink()">Send login link →</button>
+        <button class="pw-btn-ghost" onclick="switchPwView('credits')">Browse credit packs first</button>
+      </div>
+    </div>
+
+    <!-- View: Email sent -->
+    <div class="pw-view" id="pwViewSent">
+      <div class="pw-body">
+        <div class="pw-sent-icon">✉️</div>
+        <div class="pw-lead">Check your inbox</div>
+        <div class="pw-sub" id="pwSentSub">We sent a login link. Click it to continue — expires in 15 minutes.</div>
+        <button class="pw-btn-ghost" onclick="switchPwView('email')">← Use a different email</button>
+      </div>
+    </div>
+
+    <!-- View: Credit packs -->
+    <div class="pw-view" id="pwViewCredits">
+      <div class="pw-body">
+        <div class="pw-lead">Get more generations</div>
+        <div class="pw-sub">Credits never expire. One credit = one plugin generation.</div>
+        <div class="pw-packs">
+          <div class="pw-pack" onclick="buyPack('starter')">
+            <div class="pw-pack-label">Starter</div>
+            <div class="pw-pack-credits">10</div>
+            <div class="pw-pack-unit">generations</div>
+            <div class="pw-pack-price">€4.99</div>
+            <div class="pw-pack-note">Try it out</div>
+            <button class="pw-pack-btn">Buy →</button>
+          </div>
+          <div class="pw-pack highlight" onclick="buyPack('pro')">
+            <div class="pw-pack-badge">POPULAR</div>
+            <div class="pw-pack-label">Pro</div>
+            <div class="pw-pack-credits">40</div>
+            <div class="pw-pack-unit">generations</div>
+            <div class="pw-pack-price">€14.99</div>
+            <div class="pw-pack-note">Most popular</div>
+            <button class="pw-pack-btn">Buy →</button>
+          </div>
+          <div class="pw-pack" onclick="buyPack('studio')">
+            <div class="pw-pack-label">Studio</div>
+            <div class="pw-pack-credits">100</div>
+            <div class="pw-pack-unit">generations</div>
+            <div class="pw-pack-price">€29.99</div>
+            <div class="pw-pack-note">Best value</div>
+            <button class="pw-pack-btn">Buy →</button>
+          </div>
+        </div>
+        <div class="pw-fine">Secure payment via Stripe. After purchase, reload to see your credits.</div>
+      </div>
+      <div class="pw-footer">
+        <span>Have an account?</span>
+        <button class="pw-footer-link" onclick="switchPwView('email')">Sign in with email</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── Config ──────────────────────────────────────────────────────────────────
+const WORKER_URL = "https://craftforge-proxy.niki-indjov.workers.dev";
+
+// Stripe Payment Links — replace with your real URLs from Stripe dashboard
+const STRIPE_LINKS = {
+  starter: "https://buy.stripe.com/REPLACE_STARTER",
+  pro:     "https://buy.stripe.com/REPLACE_PRO",
+  studio:  "https://buy.stripe.com/REPLACE_STUDIO",
+};
+
+// ── Session state ────────────────────────────────────────────────────────────
+let cfToken  = localStorage.getItem("cf_token")  || null;
+let cfEmail  = localStorage.getItem("cf_email")  || null;
+let cfCredits = { credits: 0, free_remaining: 0, total: 0 };
+
+// ── On load: check for magic link token in URL, then load credits ────────────
+(async function init() {
+  const params = new URLSearchParams(window.location.search);
+  const urlToken = params.get("cf_token");
+
+  if (urlToken) {
+    // Verify magic link
+    try {
+      const res  = await fetch(`${WORKER_URL}/api/auth/verify?token=${encodeURIComponent(urlToken)}`);
+      const data = await res.json();
+      if (res.ok && data.session_token) {
+        cfToken  = data.session_token;
+        cfEmail  = data.email;
+        localStorage.setItem("cf_token", cfToken);
+        localStorage.setItem("cf_email", cfEmail);
+        cfCredits = { credits: data.credits, free_remaining: data.free_remaining, total: data.credits + data.free_remaining };
+        updateCreditBadge();
+        // Clean URL
+        window.history.replaceState({}, "", window.location.pathname);
+      }
+    } catch (e) { console.warn("Token verify failed", e); }
+  } else if (cfToken) {
+    // Load existing session credits
+    await refreshCredits();
+  }
+
+  updateLoginStrip();
+})();
+
+async function refreshCredits() {
+  if (!cfToken) return;
+  try {
+    const res  = await fetch(`${WORKER_URL}/api/credits/check`, {
+      headers: { Authorization: `Bearer ${cfToken}` }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      cfCredits = data;
+      updateCreditBadge();
+    }
+  } catch (e) { console.warn("Credit check failed", e); }
+}
+
+function updateCreditBadge() {
+  const badge = document.getElementById("creditBadge");
+  const count = document.getElementById("creditCount");
+  if (cfEmail) {
+    badge.classList.add("visible");
+    count.textContent = cfCredits.total ?? (cfCredits.credits + cfCredits.free_remaining);
+  } else {
+    badge.classList.remove("visible");
+  }
+}
+
+function updateLoginStrip() {
+  document.getElementById("loginStrip").classList.toggle("visible", !cfEmail);
+}
+
+// ── Paywall ──────────────────────────────────────────────────────────────────
+function openPaywall(view = "email") {
+  switchPwView(view);
+  document.getElementById("pwOverlay").classList.add("open");
+  if (view === "email") setTimeout(() => document.getElementById("pwEmailInput").focus(), 50);
+}
+
+function closePaywall() {
+  document.getElementById("pwOverlay").classList.remove("open");
+}
+
+function switchPwView(view) {
+  document.querySelectorAll(".pw-view").forEach(el => el.classList.remove("active"));
+  document.getElementById(`pwView${view.charAt(0).toUpperCase() + view.slice(1)}`).classList.add("active");
+}
+
+document.getElementById("pwOverlay").addEventListener("click", e => {
+  if (e.target === e.currentTarget) closePaywall();
+});
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closePaywall();
+});
+
+// ── Magic link ────────────────────────────────────────────────────────────────
+async function requestMagicLink() {
+  const email = document.getElementById("pwEmailInput").value.trim();
+  const errEl = document.getElementById("pwEmailError");
+  const btn   = document.getElementById("pwEmailBtn");
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errEl.textContent = "Please enter a valid email address.";
+    errEl.classList.add("visible");
+    return;
+  }
+  errEl.classList.remove("visible");
+  btn.disabled = true;
+  btn.textContent = "Sending…";
+
+  try {
+    const res  = await fetch(`${WORKER_URL}/api/auth/request-link`, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ email }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      document.getElementById("pwSentSub").textContent =
+        `We sent a login link to ${email}. Click it to continue — expires in 15 minutes.`;
+      switchPwView("sent");
+    } else {
+      errEl.textContent = data.error || "Something went wrong. Try again.";
+      errEl.classList.add("visible");
+    }
+  } catch {
+    errEl.textContent = "Network error — try again.";
+    errEl.classList.add("visible");
+  }
+
+  btn.disabled = false;
+  btn.textContent = "Send login link →";
+}
+
+document.getElementById("pwEmailInput").addEventListener("keydown", e => {
+  if (e.key === "Enter") requestMagicLink();
+});
+
+// ── Stripe redirect ───────────────────────────────────────────────────────────
+function buyPack(packId) {
+  const base = STRIPE_LINKS[packId];
+  if (!base || base.includes("REPLACE")) {
+    alert("Stripe links not configured yet — check STRIPE_LINKS in index.html.");
+    return;
+  }
+  const url = new URL(base);
+  if (cfEmail) url.searchParams.set("prefilled_email", cfEmail);
+  // Pass pack id so webhook knows which credits to add
+  // (set this up in Stripe Payment Link → Metadata → pack = starter/pro/studio)
+  window.open(url.toString(), "_blank");
+}
+</script>
+
 </body>
 </html>
